@@ -129,9 +129,8 @@ class Generator:
         index_params.add_index(
             index_name="IVF_FLAT",
             field_name="dense_vectors",
-            index_type="IVF_FLAT",
+            index_type="FLAT",
             metric_type="COSINE",
-            params={"nlist": 128}
         )
         # 创建索引
         self.milvus_client.create_index(

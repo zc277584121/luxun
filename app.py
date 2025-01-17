@@ -1,5 +1,7 @@
 import os
+import yaml
 import streamlit as st
+from easydict import EasyDict
 
 st.set_page_config(layout="wide")
 
@@ -23,11 +25,11 @@ def read_yaml_config(file_path):
     return EasyDict(config_data)
 
 @st.cache_resource
-def get_generator()
-	config_path = 'config.yaml'
-	config = read_yaml_config(config_path)
-	generator = Generator(config)
-	return generator
+def get_generator():
+    config_path = 'config.yaml'
+    config = read_yaml_config(config_path)
+    generator = Generator(config)
+    return generator
 
 
 # Logo
@@ -70,19 +72,12 @@ with st.form("my_form"):
     submitted = st.form_submit_button("Submit")
 
     if question and submitted:
-        ## Generate query embedding
-        #query_vector = emb_text(openai_client, question)
-        ## Search in Milvus collection
-        #search_res = get_search_results(
-        #    milvus_client, COLLECTION_NAME, query_vector, ["text"]
-        #)
+        generator = get_generator()
 
-		generator = get_generator()
-
-		search_res = generator.search(question)
+        search_res = generator.search(question)
         # Retrieve lines and distances
         retrieved_lines_with_distances = [
-            (res["entity"]["text"], res["distance"]) for res in search_res[0]
+            (res["entity"]["window"], res["distance"]) for res in search_res[0]
         ]
 
         # Create context from retrieved lines
@@ -92,8 +87,9 @@ with st.form("my_form"):
                 for line_with_distance in retrieved_lines_with_distances
             ]
         )
+        print(context)
         #answer = get_llm_answer(openai_client, context, question)
-		answer = self.
+#answer = self.
 
         # Display the question and response in a chatbot-style box
         st.chat_message("user").write(question)
