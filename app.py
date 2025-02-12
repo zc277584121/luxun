@@ -44,7 +44,13 @@ st.markdown(
 
 # Get clients
 milvus_client = get_milvus_client(uri=MILVUS_ENDPOINT)
-openai_client = OpenAI()
+with st.sidebar:
+    openai_api_key = st.text_input("**OpenAI API Key**", key="chatbot_api_key", type="password")
+    "[Get an OpenAI API key](https://platform.openai.com/account/api-keys)"
+
+
+
+openai_client = OpenAI(api_key=openai_api_key)
 
 retrieved_lines_with_distances = []
 
@@ -73,9 +79,10 @@ with st.form("my_form"):
 
 
 # Display the retrieved lines in a more readable format
+    st.sidebar.markdown("---")
     st.sidebar.subheader("Retrieved Lines with Distances:")
     for idx, (line, distance) in enumerate(retrieved_lines_with_distances, 1):
-        st.sidebar.markdown("---")
         st.sidebar.markdown(f"**Result {idx}:**")
         st.sidebar.markdown(f"> {line}")
         st.sidebar.markdown(f"*Distance: {distance:.2f}*")
+        st.sidebar.markdown("---")
