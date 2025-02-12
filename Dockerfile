@@ -12,4 +12,4 @@ RUN pip3 install -r /app/requirements.txt
 COPY index.html ./.venv/lib/python3.10/site-packages/streamlit/static/index.html
 
 RUN cd /app
-ENTRYPOINT ["streamlit", "run", "app.py", "--server.port=5005", "--server.address=0.0.0.0"]
+ENTRYPOINT ["streamlit", "run", "app.py", "--server.port=5006", "--server.address=0.0.0.0"]
