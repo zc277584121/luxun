@@ -30,9 +30,14 @@ st.markdown(
     }
     </style>
     <div class="title">RAG of LuXun's works</div>
+    <div class="title">鲁迅作品的RAG</div>
     <div class="description">
         This chatbot is built with Milvus vector database, supported by OpenAI text embedding model.<br>
         It supports conversation based on knowledge from the Milvus development guide document.
+    </div>
+    <div class="description">
+        该聊天机器人使用 Milvus 向量数据库构建，由 OpenAI 文本嵌入模型支持。<br>
+        它支持基于 Milvus 开发指南文档中的知识的对话。
     </div>
     """,
     unsafe_allow_html=True,
