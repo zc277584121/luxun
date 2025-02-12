@@ -1,6 +1,6 @@
 import os
-import ssl
-import certifi
+# import ssl
+# import certifi
 import json
 from glob import glob
 from tqdm import tqdm
@@ -31,7 +31,7 @@ milvus_client = get_milvus_client(uri=MILVUS_ENDPOINT)
 openai_client = OpenAI()
 
 # Set SSL context
-ssl_context = ssl.create_default_context(cafile=certifi.where())
+# ssl_context = ssl.create_default_context(cafile=certifi.where())
 
 # Get text data from data directory
 data_dir = "./data"

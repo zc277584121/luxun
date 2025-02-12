@@ -6,10 +6,6 @@ from encoder import emb_text
 from milvus_utils import get_milvus_client, get_search_results
 from ask_llm import get_llm_answer, OpenAI
 
-from dotenv import load_dotenv
-
-
-load_dotenv()
 COLLECTION_NAME = "LuXunWorks"
 MILVUS_ENDPOINT = "./milvus.db"
 
