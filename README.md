@@ -1,4 +1,4 @@
-# RAG with LuXun' work and Milvus
+# RAG with LuXun's work and Milvus
 
 
 ## Build with Docker
