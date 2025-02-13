@@ -29,12 +29,7 @@ st.markdown(
         margin-bottom: 40px;
     }
     </style>
-    <div class="title">RAG of LuXun's works</div>
     <div class="title">鲁迅作品的RAG</div>
-    <div class="description">
-        This chatbot is built with Milvus vector database, supported by OpenAI text embedding model.<br>
-        It supports conversation based on knowledge from the Milvus development guide document.
-    </div>
     <div class="description">
         该聊天机器人使用 Milvus 向量数据库构建，由 OpenAI 文本嵌入模型支持。<br>
         它支持基于 Milvus 开发指南文档中的知识的对话。
@@ -56,9 +51,9 @@ openai_client = OpenAI(api_key=openai_api_key)
 retrieved_lines_with_distances = []
 
 with st.form("my_form"):
-    question = st.text_area("Enter your question:")
+    question = st.text_area("输入你的问题:")
     # Sample question: what is the hardware requirements specification if I want to build Milvus and run from source code?
-    submitted = st.form_submit_button("Submit")
+    submitted = st.form_submit_button("提交")
 
     if question and submitted:
         # generator = get_generator()
@@ -81,9 +76,9 @@ with st.form("my_form"):
 
 # Display the retrieved lines in a more readable format
     st.sidebar.markdown("---")
-    st.sidebar.subheader("Retrieved Lines with Distances:")
+    st.sidebar.subheader("检索到的片段和距离:")
     for idx, (line, distance) in enumerate(retrieved_lines_with_distances, 1):
-        st.sidebar.markdown(f"**Result {idx}:**")
+        st.sidebar.markdown(f"**文档片段 {idx}:**")
         st.sidebar.markdown(f"> {line}")
-        st.sidebar.markdown(f"*Distance: {distance:.2f}*")
+        st.sidebar.markdown(f"*距离: {distance:.2f}*")
         st.sidebar.markdown("---")
