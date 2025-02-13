@@ -4,9 +4,11 @@ RUN pip3 install --upgrade pip
 RUN apt-get update
 
 WORKDIR /app
-COPY . /app
 
+COPY requirements.txt /app
 RUN pip3 install -r /app/requirements.txt
+
+COPY . /app
 
 COPY index.html /usr/local/lib/python3.10/site-packages/streamlit/static/index.html
 

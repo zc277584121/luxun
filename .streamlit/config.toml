@@ -1,3 +1,2 @@
 [server]
-enableStaticServing = true
 baseUrlPath = "luxuns_works"
