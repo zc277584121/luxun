@@ -27,3 +27,6 @@ Run container
 docker run -p 5006:5006 luxuns_works
 ```
 Visit http://localhost/luxuns_works:5006
+
+### 部署到国内网络
+参见 [export_model](export_model.md)
