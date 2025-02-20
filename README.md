@@ -1,5 +1,21 @@
 # RAG with LuXun's work and Milvus
+![](luxun_demo.jpeg)
+## Prepare
+Install dependencies
+```shell
+pip install -r requirements.txt
+```
 
+Insert data
+```shell
+python insert.py
+```
+This will generate a `milvus.db` file in the current directory.
+
+## Run
+```shell
+streamlit run app.py
+```
 
 ## Build with Docker
 Build images

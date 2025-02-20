@@ -31,7 +31,7 @@ st.markdown(
     </style>
     <div class="title">鲁迅作品的RAG</div>
     <div class="description">
-        该聊天机器人使用 Milvus 向量数据库构建，由 OpenAI 文本嵌入模型支持。<br>
+        该聊天机器人使用 Milvus 向量数据库构建，由文本嵌入模型支持。<br>
         它支持基于 Milvus 开发指南文档中的知识的对话。
     </div>
     """,
@@ -41,18 +41,18 @@ st.markdown(
 # Get clients
 milvus_client = get_milvus_client(uri=MILVUS_ENDPOINT)
 with st.sidebar:
-    st.markdown("[获取 OpenAI API key](https://platform.openai.com/account/api-keys)")
-    openai_api_key = st.text_input("**OpenAI API Key**", key="chatbot_api_key", type="password")
-    base_url = st.text_input("**base url**", key="base_url", placeholder="(可不填)")
-    model_name = st.text_input("**model name**", key="model_name", placeholder="(可不填，默认gpt-4o)")
+    st.markdown("[获取 Siliconflow API key](https://docs.siliconflow.cn/cn/userguide/quickstart)")
+    siliconflow_api_key = st.text_input("**Siliconflow API Key**", key="siliconflow_api_key", type="password")
+    base_url = st.text_input("**base url**", key="base_url", placeholder="https://api.siliconflow.cn/v1")
+    model_name = st.text_input("**model name**", key="model_name", placeholder="deepseek-ai/DeepSeek-V2.5")
 
 
 if not base_url:
     base_url = None
 if not model_name:
-    model_name = "gpt-4o"
+    model_name = "deepseek-ai/DeepSeek-V2.5"
 
-openai_client = OpenAI(api_key=openai_api_key, base_url=base_url)
+openai_client = OpenAI(api_key=siliconflow_api_key, base_url=base_url)
 
 retrieved_lines_with_distances = []
 
@@ -60,14 +60,14 @@ with st.form("my_form"):
     question = st.text_area("输入你的问题:")
     # Sample question: what is the hardware requirements specification if I want to build Milvus and run from source code?
     submitted = st.form_submit_button("提交")
-    if submitted and not openai_api_key:
-        st.warning("请先输入 OpenAI API Key")
+    if submitted and not siliconflow_api_key:
+        st.warning("请先输入 Siliconflow API Key")
         st.stop()
     if question and submitted:
         # generator = get_generator()
 
         # search_res = generator.search(question)
-        query_vector = emb_text(openai_client, question)
+        query_vector = emb_text(question)
         search_res = get_search_results(milvus_client=milvus_client, collection_name=COLLECTION_NAME, query_vector=query_vector, output_fields=["*"])[0]
         context = [{"title": res["entity"]["title"], "type": res["entity"]["type"], "date": res["entity"]["date"], "window": res["entity"]["window"]} for res in search_res]
         retrieved_lines_with_distances = [

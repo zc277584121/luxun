@@ -1,11 +1,9 @@
 import os
-# import ssl
-# import certifi
 import json
 from glob import glob
 from tqdm import tqdm
-
-from encoder import emb_batch_texts, emb_text, OpenAI
+from openai import OpenAI
+from encoder import emb_batch_texts, emb_text
 from milvus_utils import get_milvus_client, create_collection
 
 
@@ -38,7 +36,7 @@ data_dir = "./data"
 text_dicts = get_text(data_dir)
 
 # Create collection
-dim = len(emb_text(openai_client, "test"))
+dim = len(emb_text("test"))
 create_collection(milvus_client=milvus_client, collection_name=COLLECTION_NAME, dim=dim)
 
 # Insert data
@@ -48,7 +46,7 @@ batch_size = 256
 batched_text_dicts = [text_dicts[i:i + batch_size] for i in range(0, len(text_dicts), batch_size)]
 for batch_text_dicts in tqdm(batched_text_dicts, desc="Creating embeddings"):
     batch_windows = [text_dict["window"] for text_dict in batch_text_dicts]
-    vectors = emb_batch_texts(openai_client, batch_windows)
+    vectors = emb_batch_texts(batch_windows)
     for text_dict, vector in zip(batch_text_dicts, vectors):
         text_dict["vector"] = vector
         chunk_id = text_dict.pop("id")
