@@ -2,7 +2,6 @@ import os
 import json
 from glob import glob
 from tqdm import tqdm
-from openai import OpenAI
 from encoder import emb_batch_texts, emb_text
 from milvus_utils import get_milvus_client, create_collection
 
@@ -24,12 +23,7 @@ def get_text(data_dir):
     return text_dicts
 
 
-# Get clients
 milvus_client = get_milvus_client(uri=MILVUS_ENDPOINT)
-openai_client = OpenAI()
-
-# Set SSL context
-# ssl_context = ssl.create_default_context(cafile=certifi.where())
 
 # Get text data from data directory
 data_dir = "./data"

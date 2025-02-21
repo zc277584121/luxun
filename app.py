@@ -32,7 +32,7 @@ st.markdown(
     <div class="title">鲁迅作品的RAG</div>
     <div class="description">
         该聊天机器人使用 Milvus 向量数据库构建，由文本嵌入模型支持。<br>
-        它支持基于 Milvus 开发指南文档中的知识的对话。
+        它支持基于鲁迅作品中的知识的对话。
     </div>
     """,
     unsafe_allow_html=True,
@@ -43,14 +43,9 @@ milvus_client = get_milvus_client(uri=MILVUS_ENDPOINT)
 with st.sidebar:
     st.markdown("[获取 Siliconflow API key](https://docs.siliconflow.cn/cn/userguide/quickstart)")
     siliconflow_api_key = st.text_input("**Siliconflow API Key**", key="siliconflow_api_key", type="password")
-    base_url = st.text_input("**base url**", key="base_url", placeholder="https://api.siliconflow.cn/v1")
-    model_name = st.text_input("**model name**", key="model_name", placeholder="deepseek-ai/DeepSeek-V2.5")
+    base_url = st.text_input("**base url**", key="base_url", value="https://api.siliconflow.cn/v1", placeholder="https://api.siliconflow.cn/v1")
+    model_name = st.text_input("**model name**", key="model_name", value="deepseek-ai/DeepSeek-V2.5", placeholder="deepseek-ai/DeepSeek-V2.5")
 
-
-if not base_url:
-    base_url = None
-if not model_name:
-    model_name = "deepseek-ai/DeepSeek-V2.5"
 
 openai_client = OpenAI(api_key=siliconflow_api_key, base_url=base_url)
 

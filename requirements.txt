@@ -1,6 +1,7 @@
 openai
-pymilvus[model]
+pymilvus
 numpy
 tqdm
 streamlit==1.40.2
 certifi
+sentence-transformers
