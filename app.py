@@ -28,11 +28,22 @@ st.markdown(
         color: gray;
         margin-bottom: 40px;
     }
+    .github-link {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 10px;
+        border-radius: 5px;
+    }
     </style>
     <div class="title">鲁迅作品的RAG</div>
     <div class="description">
         该聊天机器人使用 Milvus 向量数据库构建，由文本嵌入模型支持。<br>
         它支持基于鲁迅作品中的知识的对话。
+    </div>
+    <div class="github-link">
+        更多实现和数据来源请参考此<a href="https://github.com/BushJiang/LuXunWorks" target="_blank">代码仓库</a>
     </div>
     """,
     unsafe_allow_html=True,
@@ -41,10 +52,24 @@ st.markdown(
 # Get clients
 milvus_client = get_milvus_client(uri=MILVUS_ENDPOINT)
 with st.sidebar:
-    st.markdown("[获取 Siliconflow API key](https://docs.siliconflow.cn/cn/userguide/quickstart)")
-    siliconflow_api_key = st.text_input("**Siliconflow API Key**", key="siliconflow_api_key", type="password")
-    base_url = st.text_input("**base url**", key="base_url", value="https://api.siliconflow.cn/v1", placeholder="https://api.siliconflow.cn/v1")
-    model_name = st.text_input("**model name**", key="model_name", value="deepseek-ai/DeepSeek-V2.5", placeholder="deepseek-ai/DeepSeek-V2.5")
+    st.markdown(
+        "[获取 Siliconflow API key](https://docs.siliconflow.cn/cn/userguide/quickstart)"
+    )
+    siliconflow_api_key = st.text_input(
+        "**Siliconflow API Key**", key="siliconflow_api_key", type="password"
+    )
+    base_url = st.text_input(
+        "**base url**",
+        key="base_url",
+        value="https://api.siliconflow.cn/v1",
+        placeholder="https://api.siliconflow.cn/v1",
+    )
+    model_name = st.text_input(
+        "**model name**",
+        key="model_name",
+        value="deepseek-ai/DeepSeek-V2.5",
+        placeholder="deepseek-ai/DeepSeek-V2.5",
+    )
 
 
 openai_client = OpenAI(api_key=siliconflow_api_key, base_url=base_url)
@@ -63,10 +88,23 @@ with st.form("my_form"):
 
         # search_res = generator.search(question)
         query_vector = emb_text(question)
-        search_res = get_search_results(milvus_client=milvus_client, collection_name=COLLECTION_NAME, query_vector=query_vector, output_fields=["*"])[0]
-        context = [{"title": res["entity"]["title"], "type": res["entity"]["type"], "date": res["entity"]["date"], "window": res["entity"]["window"]} for res in search_res]
+        search_res = get_search_results(
+            milvus_client=milvus_client,
+            collection_name=COLLECTION_NAME,
+            query_vector=query_vector,
+            output_fields=["*"],
+        )[0]
+        context = [
+            {
+                "title": res["entity"]["title"],
+                "type": res["entity"]["type"],
+                "date": res["entity"]["date"],
+                "window": res["entity"]["window"],
+            }
+            for res in search_res
+        ]
         retrieved_lines_with_distances = [
-            (res["entity"]["window"], res ["distance"]) for res in search_res
+            (res["entity"]["window"], res["distance"]) for res in search_res
         ]
 
         # Create context from retrieved lines
@@ -76,8 +114,7 @@ with st.form("my_form"):
         st.chat_message("user").write(question)
         st.chat_message("assistant").write(answer)
 
-
-# Display the retrieved lines in a more readable format
+    # Display the retrieved lines in a more readable format
     st.sidebar.markdown("---")
     st.sidebar.subheader("检索到的片段和距离:")
     for idx, (line, distance) in enumerate(retrieved_lines_with_distances, 1):
